@@ -195,6 +195,14 @@ function setSymbolDrawState(program, painter, layer, tileZoom, isText, isSDF, ro
         gl.uniform1f(program.u_size, sizeData.layoutSize);
     }
     gl.uniform1f(program.u_camera_to_center_distance, tr.cameraToCenterDistance);
+    if (layer.layout['symbol-placement'] === 'line' &&
+        layer.layout['text-rotation-alignment'] === 'map' &&
+        layer.layout['text-pitch-alignment'] === 'viewport' &&
+        layer.layout['text-field']) {
+        gl.uniform1f(program.u_max_camera_distance, 1.5);
+    } else {
+        gl.uniform1f(program.u_max_camera_distance, 10);
+    }
 }
 
 function drawTileSymbols(program, programConfiguration, painter, layer, tile, buffers, isText, isSDF, pitchWithMap) {
